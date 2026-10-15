@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Distributed Rollback Recovery Simulator</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header>
+  <h1>Distributed Rollback Recovery Simulator</h1>
+  <p class="subtitle">Visualize checkpointing, consistent global states &amp; rollback recovery</p>
+</header>
+
+<div class="layout">
+  <!-- Left: Controls -->
+  <aside class="controls">
+    <section class="panel">
+      <h2>Processes</h2>
+      <button id="btn-add-process">+ Add Process</button>
+      <button id="btn-remove-process">− Remove Last</button>
+      <div id="process-list" class="process-list"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Add Event</h2>
+      <label>Select Process:
+        <select id="sel-process"></select>
+      </label>
+      <div class="btn-grid">
+        <button id="btn-checkpoint" class="evt-btn cp">⬢ Checkpoint</button>
+      </div>
+      <div class="msg-controls">
+        <label>To Process:
+          <select id="sel-msg-to"></select>
+        </label>
+        <button id="btn-send-msg" class="evt-btn msg">✉ Send Message</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Failure &amp; Recovery</h2>
+      <label>Fail Process:
+        <select id="sel-fail"></select>
+      </label>
+      <button id="btn-fail" class="danger">⚡ Simulate Failure</button>
+      <button id="btn-recover" class="primary">↺ Compute Recovery Line</button>
+      <button id="btn-reset">↻ Reset Simulation</button>
+    </section>
+
+    <section class="panel">
+      <h2>Demo</h2>
+      <button id="btn-demo1">▶ Domino Effect Demo</button>
+      <button id="btn-demo2">▶ Coordinated Recovery Demo</button>
+    </section>
+  </aside>
+
+  <!-- Center: Canvas -->
+  <main class="canvas-wrap">
+    <canvas id="sim"></canvas>
+    <div class="legend">
+      <span><i class="dot cp"></i> Checkpoint</span>
+      <span><i class="dot send"></i> Send</span>
+      <span><i class="dot recv"></i> Receive</span>
+      <span><i class="dot fail"></i> Failure</span>
+      <span><i class="line rollback"></i> Recovery Line</span>
+    </div>
+  </main>
+
+  <!-- Right: Info / Console -->
+  <aside class="info">
+    <section class="panel">
+      <h2>Event Log</h2>
+      <div id="console" class="console"></div>
+    </section>
+    <section class="panel">
+      <h2>Concepts</h2>
+      <div class="concepts">
+        <p><b>Checkpoint:</b> A saved local state of a process.</p>
+        <p><b>Consistent Global State:</b> A cut where no message is received but never sent (no orphan messages).</p>
+        <p><b>Recovery Line:</b> The most recent consistent set of checkpoints the system can roll back to.</p>
+        <p><b>Domino Effect:</b> Cascading rollbacks across processes due to uncoordinated checkpointing.</p>
+      </div>
+    </section>
+  </aside>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
